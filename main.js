@@ -35,6 +35,7 @@ getID.addEventListener('click', async function(event){
   console.log(data[`title`])
   console.log(data[`primaryImageSmall`])
 
+  
   // 이미 get한 데이터를 createElement하고 appendchild한다. To Checklist를 하면
 
   let artForm = document.querySelector(`form`)
@@ -42,9 +43,9 @@ getID.addEventListener('click', async function(event){
   let searchedItem = document.querySelector(`#searchedItem`)
   let searchedImg = document.querySelector(`#searchedImg`)
   let toChecklist = document.querySelector(`#toChecklist`)
-  let artName = document.createElement(`ol`)
-  let artNation = document.createElement(`ol`)
-  let artTitle = document.createElement(`ol`)
+  let artName = document.createElement(`li`)
+  let artNation = document.createElement(`li`)
+  let artTitle = document.createElement(`li`)
   let checkboxLabel = document.createElement(`label`)
   let artCheckbox = document.createElement(`input`)
 
@@ -63,22 +64,36 @@ getID.addEventListener('click', async function(event){
   searchedItem.appendChild(artTitle)
   toChecklist.appendChild(checkboxLabel)
   toChecklist.appendChild(artCheckbox)
+
+  // artName.classList.add("list-inline-item")
+  // artNation.classList.add("list-inline-item")
+  // artTitle.classList.add("list-inline-item")
+  // checkboxLabel.classList.add("list-inline-item")
+  // artCheckbox.classList.add("list-inline-item")
   
   // 밑의 체크리스트로 array를 포함시키고 이 안에서 like를 하면
 
+  artCheckbox.addEventListener(`click`, function(event){
+      
+    event.preventDefault()
+      searchedImg.src = ``
 
-    artCheckbox.addEventListener(`click`, function(){
+      artCheckbox.type = `checkbox`
+      
       checkedList.appendChild(artName)
       checkedList.appendChild(artNation)
       checkedList.appendChild(artTitle)
       checkedList.appendChild(checkboxLabel)
       checkedList.appendChild(artCheckbox)
-    })
+      
+
     
   //그 밑의 liked checklist의 array로 보내버린다. Remove는 차라리 to checklist와 like 버튼의 boolean을 가지고 판단해서 pop시키자.
     
 })
 
+
+})
 
 // Abandoned 폐기물
 // for (i=0; i < objArry.length ; i++){
