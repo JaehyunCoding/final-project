@@ -37,6 +37,8 @@ getID.addEventListener('click', async function(event){
 
   // 이미 get한 데이터를 createElement하고 appendchild한다. To Checklist를 하면
 
+  let artForm = document.querySelector(`form`)
+  
   let searchedItem = document.querySelector(`#searchedItem`)
   let searchedImg = document.querySelector(`#searchedImg`)
   let toChecklist = document.querySelector(`#toChecklist`)
@@ -45,6 +47,10 @@ getID.addEventListener('click', async function(event){
   let artTitle = document.createElement(`ol`)
   let checkboxLabel = document.createElement(`label`)
   let artCheckbox = document.createElement(`input`)
+
+  let checkedList = document.querySelector(`#checked`)
+
+  
 
   artName.innerText = `Name: ${data[`artistDisplayName`]}`
   artNation.innerText = `Nationality: ${data[`artistNationality`]}`
@@ -60,10 +66,15 @@ getID.addEventListener('click', async function(event){
   
   // 밑의 체크리스트로 array를 포함시키고 이 안에서 like를 하면
 
-  if(artCheckbox.checkbox === true){
-    
-  }
 
+    artCheckbox.addEventListener(`click`, function(){
+      checkedList.appendChild(artName)
+      checkedList.appendChild(artNation)
+      checkedList.appendChild(artTitle)
+      checkedList.appendChild(checkboxLabel)
+      checkedList.appendChild(artCheckbox)
+    })
+    
   //그 밑의 liked checklist의 array로 보내버린다. Remove는 차라리 to checklist와 like 버튼의 boolean을 가지고 판단해서 pop시키자.
     
 })
