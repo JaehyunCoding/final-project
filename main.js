@@ -3,102 +3,145 @@
 // Search by name, nationality, title etc.
 // Collect the Liked ones into Liked Checklist then remove some of the liked ones
 
-// GETing data
+// Queryselectors/Alls //
 
-let getID = document.querySelector("#getButton")
-let termEnter = document.querySelector(`#enterTerm`)
+let searchInput = document.querySelector(`#searchInput`)
+let mainSearch = document.querySelector(`#mainSearch`)
+let searchedCard = document.querySelector(`#searchedCard`)
 
-getID.addEventListener('click', async function(event){
+let divCard = document.querySelector(`.card`)
+let imgSrc = document.createElement(`img`)
+let divcardBody = document.createElement(`div`)
+
+let h5Title = document.createElement(`h5`)
+
+let pArtist = document.createElement(`p`)
+let pCulture = document.createElement(`p`)
+let pDepartment = document.createElement(`p`)
+
+let aFavorites = document.createElement(`input`)
+let aNext = document.createElement(`input`)
+
+let favorited = document.querySelector(`#favorited`)
+let divcard18 = document.createElement(`div`)
+let aRemove = document.createElement(`input`)
+
+// URLs //
+
+// Arrays //
+let arts = {}
+let favoriteArts = {}
+
+// Api Functions //
+
+mainSearch.addEventListener(`click`, async (event) => {
   event.preventDefault()
-  let url = `https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&hasImages=true&artistOrCulture=true&q=${termEnter.value}`;
-  let res = await fetch(url);
-  let data = await res.json();
-  console.log(termEnter.value)
-  console.log(data[`objectIDs`]);
-
-  // After figuring out the all IDs, check out a random ID's specific details (name, nationality, title, imagesmall)
-
-  let objArry = data[`objectIDs`]
-  let objLength = objArry.length
-  let randomNumber = Math.floor(Math.random()*objLength)
-  console.log(objArry.length)
-
-  url = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${objArry[randomNumber]}`
-
-  console.log(objArry[randomNumber])
-
-  res = await fetch(url);
-  data = await res.json();
-  console.log(data)
-  console.log(data[`artistDisplayName`])
-  console.log(data[`artistNationality`])
-  console.log(data[`title`])
-  console.log(data[`primaryImageSmall`])
-
   
-  // 이미 get한 데이터를 createElement하고 appendchild한다. To Checklist를 하면
-
-  let artForm = document.querySelector(`form`)
+    if(searchInput.value === ``){
+      alert(`Please, enter any keywords`)
+    } else{
+      let url = `https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&q=${searchInput.value}`
   
-  let searchedItem = document.querySelector(`#searchedItem`)
-  let searchedImg = document.querySelector(`#searchedImg`)
-  let toChecklist = document.querySelector(`#toChecklist`)
-  let artName = document.createElement(`li`)
-  let artNation = document.createElement(`li`)
-  let artTitle = document.createElement(`li`)
-  let checkboxLabel = document.createElement(`label`)
-  let artCheckbox = document.createElement(`input`)
-
-  let checkedList = document.querySelector(`#checked`)
-
+      // console.log(url)
   
-
-  artName.innerText = `Name: ${data[`artistDisplayName`]}`
-  artNation.innerText = `Nationality: ${data[`artistNationality`]}`
-  artTitle.innerText = `Title: ${data[`title`]}`
-  searchedImg.src = data[`primaryImageSmall`]
-  checkboxLabel.innerText = `To Checklist`
-  artCheckbox.type = `checkbox`
-  searchedItem.appendChild(artName)
-  searchedItem.appendChild(artNation)
-  searchedItem.appendChild(artTitle)
-  toChecklist.appendChild(checkboxLabel)
-  toChecklist.appendChild(artCheckbox)
-
-  // artName.classList.add("list-inline-item")
-  // artNation.classList.add("list-inline-item")
-  // artTitle.classList.add("list-inline-item")
-  // checkboxLabel.classList.add("list-inline-item")
-  // artCheckbox.classList.add("list-inline-item")
+      let res = await fetch(url);
+      let data = await res.json();
   
-  // 밑의 체크리스트로 array를 포함시키고 이 안에서 like를 하면
+      arts = data[`objectIDs`]
+      let objLength = arts.length
+      let randomNumber = Math.floor(Math.random()*objLength)
 
-  artCheckbox.addEventListener(`click`, function(event){
+      // console.log(arts.length)
+  
+      url = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${arts[randomNumber]}`
+  
+      res = await fetch(url);
+      data = await res.json();
       
-    event.preventDefault()
-      searchedImg.src = ``
+      // console.log(url)
+      // console.log(data)
+      // console.log(data[`primaryImageSmall`])
+      // console.log(data[`title`])
+      // console.log(data[`artistDisplayName`])
+      // console.log(data[`culture`])
+      // console.log(data[`department`])
 
-      artCheckbox.type = `checkbox`
+            
+      if(`${data[`primaryImageSmall`]}` === ``){
+        imgSrc.src = `./images/noimage.PNG`
+        divCard.appendChild(imgSrc)
+      } else {
+        imgSrc.src = data[`primaryImageSmall`]
+        divCard.appendChild(imgSrc)
+      }
+
+      divcardBody.classList.add(`card-body`)
+      divCard.style = "width: 18rem;"
+      divCard.appendChild(divcardBody)
+
+      h5Title.classList.add(`card-title`)
+      h5Title.innerText = data[`title`]
+      divcardBody.appendChild(h5Title)
       
-      checkedList.appendChild(artName)
-      checkedList.appendChild(artNation)
-      checkedList.appendChild(artTitle)
-      checkedList.appendChild(checkboxLabel)
-      checkedList.appendChild(artCheckbox)
+      pArtist.classList.add(`card-text`)
+      pArtist.innerText = data[`artistDisplayName`]
+      divcardBody.appendChild(pArtist)
+
+      pCulture.classList.add(`card-text`)
+      pCulture.innerText = data[`culture`]
+      divcardBody.appendChild(pCulture)
+
+      pDepartment.classList.add(`card-text`)
+      pDepartment.innerText = data[`department`]
+      divcardBody.appendChild(pDepartment)
+
+      aFavorites.classList.add(`btn`)
+      aFavorites.classList.add(`btn-primary`)
+      // aFavorites.type = `submit`
+      aFavorites.value = `Favorites`
+      divcardBody.appendChild(aFavorites)
       
+      aNext.classList.add(`btn`)
+      aNext.classList.add(`btn-secondary`)
+      // aNext.type = `submit`
+      aNext.value = `Next`
+      divcardBody.appendChild(aNext)
+
+      aFavorites.addEventListener(`click`, () => {
+        // event.preventDefault()
+
+        divcard18.classList.add(`card`)
+        divcard18.style = "width: 18rem;"
+
+        favorited.appendChild(divcard18)
+        divcard18.appendChild(imgSrc)
+        divcard18.appendChild(divcardBody)
+        
+        divcardBody.removeChild(aFavorites)
+        divcardBody.removeChild(aNext)
+
+        aRemove.classList.add(`btn`)
+        aRemove.classList.add(`btn-danger`)
+        aRemove.value = `Remove`
+        divcardBody.appendChild(aRemove)
+
+        aRemove.addEventListener(`click`, () => {
+          favorited.removeChild(divcard18)
+        })
+                
+        
+      })
+
+    }})
+    
 
     
-  //그 밑의 liked checklist의 array로 보내버린다. Remove는 차라리 to checklist와 like 버튼의 boolean을 가지고 판단해서 pop시키자.
+
+  
     
-})
+  
 
 
-})
+// Event Listeners //
 
-// Abandoned 폐기물
-// for (i=0; i < objArry.length ; i++){
-  //   url = `https://collectionapi.metmuseum.org/public/collection/v1/objects/${objArry[i]}`
-  //   res = await fetch(url);
-  //   data = await res.json();
-  //   console.log(data)
-  // }
+// App Functions //

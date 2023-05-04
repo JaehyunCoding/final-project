@@ -1,9 +1,42 @@
-
-/* h1 {
-
-} */
-
 body {
     background-color: bisque;
-    @media (min-width: 992px)
+
 }
+
+.title{
+    width: 25%;
+}
+
+.main-title{
+    font-weight: bolder;
+    margin: 35px;
+    text-align: center;
+}
+
+.main-title2{
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: auto;
+    text-align: center;
+}
+
+#search-input{
+    display: flex;
+}
+
+
+
+.card{
+    
+    position: relative;
+    display: block;
+    margin-top: 90px;
+    margin-bottom: 50px;
+    overflow: visible;
+    object-fit: cover;
+}
+
+img {
+    width: 18rem;
+    height: auto;
+  }
